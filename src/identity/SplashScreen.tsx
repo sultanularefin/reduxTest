@@ -83,7 +83,7 @@ const SplashScreen: React.FC<Props> = ({ props, navigation, route }) => {
 
           navigation.reset({
             index: 0,
-            routes: [{ name: 'DashBoardHome' }],
+            routes: [{ name: 'DrawerNavigatorCustom' }],
           });
 
 
@@ -99,7 +99,7 @@ const SplashScreen: React.FC<Props> = ({ props, navigation, route }) => {
               return navigation.dispatch(
                   CommonActions.reset({
                     index: 0,
-                    routes: [{name: 'DashBoardHome'}],
+                    routes: [{name: 'DrawerNavigatorCustom'}],
                   })
               );
             },

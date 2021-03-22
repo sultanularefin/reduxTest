@@ -71,13 +71,13 @@ const IdentityStackNavigator = () => {
       />
 
       <Stack.Screen
-          name="DashBoardHome"
-          component={DashBoardHome}
-          options={{
-              headerShown: false,
-              headerStatusBarHeight: 160,
-              // headerStyle
-          }}
+        name="DrawerNavigatorCustom"
+        component={DrawerNavigatorCustom}
+        options={{
+          headerShown: false,
+          headerStatusBarHeight: 160,
+          // headerStyle
+        }}
       />
     </Stack.Navigator>
   );
@@ -104,6 +104,49 @@ const NotificationsScreen = ({ navigation }) => {
 
 const Drawer = createDrawerNavigator();
 
+const DrawerNavigatorCustom = () => {
+  return (
+    // <Drawer.Navigator>
+    //     <Drawer.Screen name="Home" component={TabNavigator} />
+    //     <Drawer.Screen name="Contact" component={ContactStackNavigator} />
+    // </Drawer.Navigator>
+
+    <Drawer.Navigator
+      // initialRouteName="DashBoard"
+      initialRouteName="DashBoardHome"
+      // initialRouteName="IdentityStackNavigator"
+      drawerPosition="left"
+      drawerType="front"
+      screenOptions={{
+        headerShown: true,
+        // swipeEnabled: true,
+        // gestureEnabled: true
+        headerStyle: {
+          // backgroundColor: 'crimson',
+          backgroundColor: 'slateblue',
+        },
+        // headerTintColor: 'orange',
+        //   headerTintColor: 'palegreen',
+        headerTintColor: 'ivory',
+        // lightslategrey
+
+        headerTitleAlign: 'center',
+      }}
+    >
+      <Drawer.Screen name="Dash Board" component={DashBoardHome} />
+      <Drawer.Screen name="Notifications" component={NotificationsScreen} />
+      <Drawer.Screen
+        name="IdentityStackNavigator"
+        options={{
+          headerShown: false,
+          headerStatusBarHeight: 160,
+        }}
+        component={IdentityStackNavigator}
+      />
+    </Drawer.Navigator>
+  );
+};
+
 export interface Props {}
 
 const App: React.FC<Props> = (props) => {
@@ -112,39 +155,7 @@ const App: React.FC<Props> = (props) => {
   // export default function App() {
   return (
     <NavigationContainer>
-      <Drawer.Navigator
-        // initialRouteName="DashBoard"
-        // initialRouteName="DashBoardHome"
-        initialRouteName="IdentityStackNavigator"
-        drawerPosition="left"
-        drawerType="front"
-        screenOptions={{
-          headerShown: true,
-          // swipeEnabled: true,
-          // gestureEnabled: true
-          headerStyle: {
-            // backgroundColor: 'crimson',
-            backgroundColor: 'slateblue',
-          },
-          // headerTintColor: 'orange',
-          //   headerTintColor: 'palegreen',
-          headerTintColor: 'ivory',
-          // lightslategrey
-
-          headerTitleAlign: 'center',
-        }}
-      >
-        <Drawer.Screen name="Dash Board" component={DashBoardHome} />
-        <Drawer.Screen name="Notifications" component={NotificationsScreen} />
-        <Drawer.Screen
-          name="IdentityStackNavigator"
-          options={{
-            headerShown: false,
-            headerStatusBarHeight: 160,
-          }}
-          component={IdentityStackNavigator}
-        />
-      </Drawer.Navigator>
+      <IdentityStackNavigator />
     </NavigationContainer>
   );
 };
