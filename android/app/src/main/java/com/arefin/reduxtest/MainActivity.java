@@ -1,4 +1,4 @@
-package com.reduxtest;
+package com.arefin.reduxtest;
 
 
 import com.facebook.react.ReactActivityDelegate;

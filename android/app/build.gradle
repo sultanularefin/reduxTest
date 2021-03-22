@@ -160,7 +160,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.reduxtest"
+        applicationId "com.arefin.reduxtest"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
@@ -214,6 +214,8 @@ multiDexEnabled true
 }
 
 dependencies {
+
+implementation platform('com.google.firebase:firebase-bom:26.7.0')
     implementation fileTree(dir: "libs", include: ["*.jar"])
     //noinspection GradleDynamicVersion
     implementation "com.facebook.react:react-native:+"  // From node_modules
