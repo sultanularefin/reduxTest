@@ -3,7 +3,7 @@ import {Button, View} from 'react-native';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import {NavigationContainer} from '@react-navigation/native';
 
-const HomeScreen = ({navigation}) => {
+const DashBoardScreen = ({navigation}) => {
   return (
     <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
       <Button
@@ -24,13 +24,7 @@ const NotificationsScreen = ({navigation}) => {
 
 const Drawer = createDrawerNavigator();
 
-export interface Props {
-
-
-
-}
-
-
+export interface Props {}
 
 const App: React.FC<Props> = props => {
   // const App: React.FC<Props> = () => {
@@ -38,8 +32,21 @@ const App: React.FC<Props> = props => {
   // export default function App() {
   return (
     <NavigationContainer>
-      <Drawer.Navigator initialRouteName="Home">
-        <Drawer.Screen name="Home" component={HomeScreen} />
+      <Drawer.Navigator
+        initialRouteName="DashBoard"
+        drawerPosition="left"
+        drawerType="front"
+        screenOptions={{
+          headerShown: true,
+          // swipeEnabled: true,
+          // gestureEnabled: true
+          headerStyle: {
+            backgroundColor: 'crimson',
+          },
+          headerTintColor: 'orange',
+          headerTitleAlign: 'center',
+        }}>
+        <Drawer.Screen name="DashBoard" component={DashBoardScreen} />
         <Drawer.Screen name="Notifications" component={NotificationsScreen} />
       </Drawer.Navigator>
     </NavigationContainer>
