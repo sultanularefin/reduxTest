@@ -22,7 +22,7 @@ import CommonChatThemeColorStyles from './../../selectedItemThemeColorStyles/Com
 
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 
-// import {useActionSheet} from '@expo/react-native-action-sheet';
+
 import {
   LongPressGestureHandler,
   State,
@@ -77,12 +77,12 @@ export interface Props {
     dragAnimatedValue: Animated.AnimatedInterpolation,
   ) => void;
 
-  deleteImageFromWishItemStoage: (
-    documentId: string,
-    imageURL: string[],
-  ) => void;
-
-  contentType: string;
+  // deleteImageFromWishItemStoage: (
+  //   documentId: string,
+  //   imageURL: string[],
+  // ) => void;
+  //
+  // contentType: string;
 
   customMinDurationMs: number;
   isSelected: boolean;
@@ -156,7 +156,7 @@ const AssetIndex1Styles = StyleSheet.create({
   },
 });
 const OneExpenseItem: React.FC<Props> = /*async */ props => {
-  const {showActionSheetWithOptions} = useActionSheet();
+  // const {showActionSheetWithOptions} = useActionSheet();
 
   const doubleTapRef = useRef(null);
 
@@ -317,96 +317,8 @@ const OneExpenseItem: React.FC<Props> = /*async */ props => {
     //     });
   };
 
-  const invokeActionSheetChatMessage = (
-    // property2:{
-    user: string,
-    uploadedBy: string,
-    date: Date,
-    itemId: number[],
 
-    urlText: string,
-    imageURL: string[],
-    nameText: string,
-    tagText: string,
-    detailText: string,
-    categoryText: string,
-    amountNumber: Number,
-    id: string,
-    // },
-  ) => {
-    // console.log(`at invokeActionSheetChatMessage.... chat_id: ${chat_id} chat_type: ${chat_type} is_delete_receiver: ${is_delete_receiver}
-    //     is_delete_sender: ${is_delete_sender} is_doc: ${is_doc} is_image: ${is_image} is_read: ${is_read} message: ${message} receiver_id: ${receiver_id}
-    //     sender_id: ${sender_id} time: ${time} isSelected: ${isSelected} customMinDurationMs: ${props.customMinDurationMs}`);
 
-    // console.log('at clearSearch: ');
-    // Alert.alert(itemID);
-    const cancelButtonIndexChatMessageDeleteForward = 4;
-
-    return showActionSheetWithOptions(
-      {
-        // title: chatMessage,
-        options: optionsChatMessageDeleteForward,
-        // optionsSharedFeed,
-        cancelButtonIndex: cancelButtonIndexChatMessageDeleteForward,
-
-        showSeparators: true,
-        icons: iconsChatMessageDeleteForward,
-      },
-      buttonIndex => {
-        console.log('buttonIndex: ', buttonIndex);
-
-        if (buttonIndex === 0) {
-          // return props.invokeReplyForPartnerChat(
-          //     chat_id,
-          //     message,
-          //     sender_id,
-          //     receiver_id,
-          //     is_image,
-          //     undefined,
-          //     undefined,
-          //     chat_type);
-        }
-
-        if (buttonIndex === 1) {
-          console.log(' at index = = 1  ');
-
-          // return editPageChange(/*item_idState */, userIdState);
-
-          // item_idState,
-          // return editPageChange(itemID);
-          // console.log(` at index ==1 ${chat_id}`);
-
-          // return props.updateIsSelected(chat_id, props.flatListDataIndex, 2, false);
-
-          // return props.updateIsSelected(chat_id, props.flatListDataIndex, 2);
-
-          // return messageForword(chat_id, message);
-        }
-
-        if (buttonIndex === 2) {
-          setItemSelectedState(!itemSelectedState);
-
-          // return props.updateIsSelected(chat_id, props.flatListDataIndex,1);
-
-          // return deleteAMessage(chat_id, message);
-        }
-
-        if (buttonIndex === 3) {
-          // console.log(` at index ==1 ${chatID}`);
-
-          //return deletePostID(itemID);
-          // pickSingleWithCamera
-
-          Alert.alert('Chat reported.');
-          // return deleteChat(itemID);
-
-          // return reportAMessage(chat_id, chat_type);
-        }
-
-        // Do something here depending on the button index selected
-      },
-    );
-  };
 
   const onProgress22 = () => {
     console.log('at onProgress...');
@@ -437,8 +349,7 @@ const OneExpenseItem: React.FC<Props> = /*async */ props => {
   const dateWithMoment = moment(props.property2.date).format('ll');
 
   const swipeAlert = (direction: string) => {
-    // console.log('at alert to delete item from storage...');
-    // console.log('documentId: ',documentId);
+
 
     Alert.alert(
       'Swipe Alert',
@@ -501,23 +412,7 @@ const OneExpenseItem: React.FC<Props> = /*async */ props => {
 
               // return props.updateIsSelected(oneCommentArg.chat_id, props.flatListDataIndex);
             } else {
-              return invokeActionSheetChatMessage(
-                props.property2.user,
-                props.property2.uploadedBy,
-                props.property2.date,
-                props.property2.itemId,
 
-                props.property2.itemData.urlText,
-                props.property2.itemData.imageURL,
-                props.property2.itemData.nameText,
-                props.property2.itemData.tagText,
-
-                props.property2.itemData.detailText,
-
-                props.property2.itemData.categoryText,
-                props.property2.itemData.amountNumber,
-                props.property2.id,
-              );
             }
           }
         }}
@@ -536,23 +431,9 @@ const OneExpenseItem: React.FC<Props> = /*async */ props => {
             maxDelayMs={500}
             onHandlerStateChange={event => {
               if (event.nativeEvent.state === State.ACTIVE) {
-                return invokeActionSheetChatMessage(
-                  props.property2.user,
-                  props.property2.uploadedBy,
-                  props.property2.date,
-                  props.property2.itemId,
 
-                  props.property2.itemData.urlText,
-                  props.property2.itemData.imageURL,
-                  props.property2.itemData.nameText,
-                  props.property2.itemData.tagText,
 
-                  props.property2.itemData.detailText,
 
-                  props.property2.itemData.categoryText,
-                  props.property2.itemData.amountNumber,
-                  props.property2.id,
-                );
               }
             }}>
             {itemSelectedState ? (

@@ -21,15 +21,6 @@ import moment from 'moment';
 // import Video from 'react-native-video';
 
 import FTI from 'react-native-vector-icons/Feather';
-// import Ionicons from 'react-native-vector-icons/Ionicons';
-
-// import storage from '@react-native-firebase/storage';
-// import /* TouchableOpacity, TouchableWithoutFeedback  */
-// import Swipeable from 'react-native-gesture-handler/Swipeable';
-
-// import 'react-native-gesture-handler';
-
-// import {RectButton} from 'react-native-gesture-handler';
 
 
 
@@ -116,152 +107,17 @@ const ExpenseItemsLists: React.FC<Props> = /*async */ props => {
 
   const [finalImageResouceState, setFinalImageResouceState] = useState('');
 
-  const [storageMetaDataState, setstorageMetaDataState] = useState({
-    contentType: String(''),
-    customMetadata: {
-      // customMetadata: {
-      // itemName:         string | null | undefined,
-      // width:             string | null | undefined,
-      // height:            string | null | undefined,
-      itemName: String(0),
-      width: String(0),
-      height: String(0),
-    },
-  });
+
 
   const [minDurationMsState, setMinDurationMsState] = useState(500);
 
-  const itemToBeDeleted = (documentId: string) => {
-    console.log('itemToBeDeleted, documentId: ', documentId);
 
-    console.log('\n\n\n');
 
-    console.log(
-      'how many images are there: ',
-      props.property.itemData.imageURL.length,
-    );
-    console.log('CCC CCC CCC \n\n\n');
-    deleteImageFromWishItemStoage(documentId, props.property.itemData.imageURL);
-  };
 
-  const deleteImageFromWishItemStoage = async (
-    documentId: string,
-    imageURL: string[],
-  ) => {
-    console.log(
-      '------------------------------------------------------||||||||',
-      props.property.itemId,
-    );
-
-    console.log('documentId: ', documentId);
-    // console.log('imageURL[0]: ', imageURL[0]);
-
-    if (!imageURL) {
-      props.itemToBeDeleted(documentId);
-    } else {
-      const user = auth().currentUser;
-
-      if (user !== null) {
-        const myUserEmail = user.email;
-        try {
-          let i = 0;
-          for (i; i < imageURL.length; i++) {
-            const fileName2 = props.property.itemData.imageURL[i].split('?')[0];
-            // const GSURLRefForDelete = `gs://audiosa-ba9b0.appspot.com/audios/${fileName2}`;
-            const GSURLRefForDelete = `gs://audiosa-ba9b0.appspot.com/${fileName2}`;
-            console.log('\n * & * & gsUrlL:  \n\n', GSURLRefForDelete);
-
-            // return ;
-
-            const gsReference = storage().refFromURL(GSURLRefForDelete);
-
-            await gsReference
-              .delete()
-              .then(result => {
-                // console.log('Uploaded a blob or file!');
-                console.log('file deleted: ', result);
-
-                if (i === 0) {
-                  props.itemToBeDeleted(documentId);
-                }
-              })
-              .catch(error => {
-                console.log(
-                  'storage image delete error: gsReference AssetItemsList: ',
-                  error,
-                );
-              });
-          }
-        } catch (error2) {
-          console.log('error in getting meta data....', error2);
-        }
-      }
-    }
-  };
 
   useEffect(() => {}, [props.property.itemData.imageURL]);
 
   //2---------
-  useEffect(() => {
-    const fetchMetaData = async () => {
-      const parentRef = storage().ref('');
-
-      const fileName2 = props.property.itemData.imageURL[0].split('?')[0];
-      // console.log('\n\n\n fileName2 -----> : ', fileName2);
-
-      const childRef = parentRef.child(fileName2);
-
-      let retrievedMetaData: {
-        contentType?: string | null | undefined;
-        // contentType?: string | null;
-        customMetadata: {
-          // customMetadata: {
-          itemName: string | null | undefined;
-          width: string | null | undefined;
-          height: string | null | undefined;
-        };
-      };
-
-      /* await */
-      childRef
-        .getMetadata()
-        .then(metadata => {
-          // Metadata now contains the metadata for 'images/forest.jpg'
-          // console.log('\n\n  +   +  +--------- metadata:  \n\n\n\n', metadata);
-
-          retrievedMetaData = metadata;
-
-          setstorageMetaDataState({...retrievedMetaData});
-        })
-        .catch(error => {
-          // Uh-oh, an error occurred!
-
-          console.log(
-            '\n\n  error in getting ... --------- metadata22:  ',
-            error,
-          );
-        });
-    };
-
-    const fetchDownloadURL = async () => {
-      console.log('at fetchDownloadURL ');
-      const parentRef = storage().ref('');
-
-      const imageURL0 = props.property.itemData.imageURL[0];
-      // const parentRef = storage().ref('');
-      console.log('imageURL0: ', imageURL0);
-
-      const childRefDownLoad = parentRef.child(imageURL0);
-      const dURL: string = await childRefDownLoad.getDownloadURL();
-
-      console.log('url childRefDownLoad.getDownloadURL();   :  ', dURL);
-
-      setFinalImageResouceState(dURL);
-    };
-
-    fetchMetaData();
-    fetchDownloadURL();
-  }, [props.property.itemData.imageURL]);
 
   //2 ----
 
@@ -269,8 +125,7 @@ const ExpenseItemsLists: React.FC<Props> = /*async */ props => {
   // const deviceHeight =  Dimensions.get('window').height;
 
   const setDeleteConditionAlert = (documentId: string) => {
-    // console.log('at alert to delete item from storage...');
-    // console.log('documentId: ',documentId);
+
 
     Alert.alert(
       'Delete This Item',
@@ -363,9 +218,9 @@ const ExpenseItemsLists: React.FC<Props> = /*async */ props => {
         // renderLeftActions = {LeftActions}
 
         newItemSelectedLastChild={newItemSelectedMiddle}
-        deleteImageFromWishItemStoageLast={deleteImageFromWishItemStoage}
+        // deleteImageFromWishItemStoageLast={deleteImageFromWishItemStoage}
         currentIndexLast={lastIndex2}
-        contentType={storageMetaDataState.contentType}
+        // contentType={storageMetaDataState.contentType}
         property2={oneElement}
         index={index}
         customMinDurationMs={minDurationMsState}
