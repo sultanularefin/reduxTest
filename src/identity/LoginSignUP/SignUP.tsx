@@ -19,9 +19,9 @@ import {
 import Ionicons from 'react-native-vector-icons/Ionicons';
 // import AsyncStorage from '@react-native-async-storage/async-storage';
 import { MMKV } from 'react-native-mmkv';
-// import NetInfo from '@react-native-community/netinfo';
+import NetInfo from '@react-native-community/netinfo';
 import Snackbar from 'react-native-snackbar';
-// import auth from '@react-native-firebase/auth';
+import auth from '@react-native-firebase/auth';
 // import ConfirmEmailPage from 'identity/ConfirmEmailPage';
 
 export interface Props {}
@@ -240,10 +240,10 @@ const SignUP: React.FC<Props> = ({ props, navigation }) => {
 
             return navigation.reset({
               index: 0,
-              routes: [{ name: 'MonosHome' }],
+              routes: [{ name: 'DrawerNavigatorCustom' }],
             });
 
-            // return navigation.navigate('MonosHome');
+
           },
           (error) => {
             console.log('error: ', error);
@@ -318,6 +318,7 @@ const SignUP: React.FC<Props> = ({ props, navigation }) => {
                 returnKeyType={'next'}
                 value={emailState}
                 onSubmitEditing={_next}
+                selectionColor= "black"
               />
 
               <Separator />
@@ -334,6 +335,7 @@ const SignUP: React.FC<Props> = ({ props, navigation }) => {
                 returnKeyType={'next'}
                 value={passwordState}
                 onSubmitEditing={_next1}
+                selectionColor= "black"
               />
 
               <Separator />
@@ -349,6 +351,7 @@ const SignUP: React.FC<Props> = ({ props, navigation }) => {
                 // onSubmitEditing={handleLogin}
                 blurOnSubmit
                 returnKeyLabel={'done'}
+                selectionColor= "black"
               />
             </View>
 
@@ -400,6 +403,7 @@ const SignUPTabStyles = StyleSheet.create({
     alignContent: 'center',
     marginLeft: 15,
     marginRight: 15,
+    // backgroundColor: 'wheat',
   },
 
   container01_for_login_only: {

@@ -21,15 +21,11 @@ import {Picker} from '@react-native-picker/picker';
 
 import {NavigationRoute} from 'react-navigation';
 
-// import { CirclesLoader,
-//   TextLoader,
-//   DotsLoader,
-//   LinesLoader
-// } from 'react-native-indicator';
+
 
 import MTI from 'react-native-vector-icons/MaterialCommunityIcons';
-import helpers from '../../../../Helpers';
-import {PERMISSIONS} from 'react-native-permissions';
+
+import AddExpenseItemPage from "./AddExpenseItemPage";
 
 export interface Props {
   priceCalculateForm: {
@@ -112,7 +108,7 @@ const MoneyHeaderComponent: React.FC<Props> = props => {
   const AddNewAssetItem = /*async */ ()=>{
     console.log('at Add New Asset Item: ');
 
-    return props.navigation.navigate('AddItemModalPage');
+    return props.navigation.navigate('AddExpenseItemPage');
   };
 
 
@@ -150,19 +146,43 @@ const MoneyHeaderComponent: React.FC<Props> = props => {
           flexDirection: 'row-reverse',
           height: 50,
         }}>
+        <TouchableOpacity onPress={AddNewAssetItem}>
         <View
           style={{
             flexDirection: 'row',
-            paddingRight: 20,
+            // paddingRight: 20,
             justifyContent: 'center',
             alignItems: 'center',
-            paddingBottom: 10,
+            // paddingBottom: 10,
             /*backgroundColor:'#aaffcc',*/
+            backgroundColor: 'gold',
+            width: deviceWidth/2,
+            borderRadius: 10,
+            paddingStart: 10,
           }}>
-          <TouchableOpacity onPress={AddNewAssetItem}>
+
+
+
+            <Text style={{
+
+              fontWeight: 'bold',
+              // backgroundColor: 'transparent',
+              fontSize: 20,
+              textAlign: 'left',
+              color: '#8E8E93',
+              // backgroundColor: 'red',
+              paddingRight: 10,
+
+            }}>
+              Add Expense
+            </Text>
+
+
+
             <MTI name="plus-circle-outline" size={40} color="#8E8E93" />
-          </TouchableOpacity>
+
         </View>
+        </TouchableOpacity>
 
         <View
           style={{

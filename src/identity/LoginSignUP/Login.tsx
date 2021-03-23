@@ -17,11 +17,11 @@ import {
   Keyboard,
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-// import AsyncStorage from '@react-native-async-storage/async-storage';
+
 import { MMKV } from 'react-native-mmkv';
-// import NetInfo from '@react-native-community/netinfo';
+import NetInfo from '@react-native-community/netinfo';
 import Snackbar from 'react-native-snackbar';
-// import auth from '@react-native-firebase/auth';
+import auth from '@react-native-firebase/auth';
 
 export interface Props {}
 
@@ -39,21 +39,22 @@ const Login: React.FC<Props> = ({ props, navigation }) => {
     return <View style={LoginTabStyles.separator} />;
   };
 
-  // useEffect(() => {
-  //   const unsubscribe = NetInfo.addEventListener((state) => {
-  //     console.log('Connection type', state.type);
-  //     console.log('Is connected?', state.isConnected);
-  //     if (!state.isConnected) {
-  //       setConnectionStatusState(false);
-  //     } else {
-  //       setConnectionStatusState(true);
-  //     }
-  //   });
-  //
-  //   return () => {
-  //     unsubscribe();
-  //   };
-  // }, []);
+  useEffect(() => {
+
+    const unsubscribe = NetInfo.addEventListener((state) => {
+      console.log('Connection type', state.type);
+      console.log('Is connected?', state.isConnected);
+      if (!state.isConnected) {
+        setConnectionStatusState(false);
+      } else {
+        setConnectionStatusState(true);
+      }
+    });
+
+    return () => {
+      unsubscribe();
+    };
+  }, []);
 
   const refEmail = useRef(null);
   // refEmail.current.value='sss';
@@ -64,6 +65,7 @@ const Login: React.FC<Props> = ({ props, navigation }) => {
     console.log('e: at setEmail: ', e);
     setemailState(e.value || '');
   };
+
   const setPWD = (e) => {
     console.log('e: at setPWD: ', e);
     setpasswordState(e.password || '');
@@ -142,22 +144,34 @@ const Login: React.FC<Props> = ({ props, navigation }) => {
 
       MMKV.set('userToken', userString);
 
-      const jsonUser = MMKV.getString('userToken'); // { 'username': 'Marc', 'age': 20 }
+      const jsonUser = await MMKV.getString('userToken'); // { 'username': 'Marc', 'age': 20 }
       const userObject = JSON.parse(jsonUser);
+      Alert.alert(`userObject: ${userObject}`);
     } catch (error) {
       console.log('Error of Try: ', error);
     }
   };
 
   const handleLogin = () => {
+
     console.log('connectionStatusState: ', connectionStatusState);
     if (!connectionStatusState) {
-      Snackbar.show({
+     return Snackbar.show({
         text: 'You are Offline!',
-        duration: Snackbar.LENGTH_LONG,
-        backgroundColor: '#FFFFFF',
+        duration: Snackbar.LENGTH_SHORT,
+        numberOfLines: 1,
+        backgroundColor: 'gold',
+        action: {
+          text: 'close',
+          textColor: 'green',
+          onPress: () => {
+            Snackbar.dismiss();
+          },
+        },
       });
-      return navigation.navigate('LoginSignUP');
+
+
+      // return navigation.navigate('LoginSignUP');
     }
 
     console.log('emailState: ', emailState);
@@ -209,35 +223,27 @@ const Login: React.FC<Props> = ({ props, navigation }) => {
         // let UserCredential = authentication.signInWithEmailAndPassword(emailState, passwordState);
 
         console.log("UserCredential: at Login success__ ", UserCredential);
-        // console.log("UserCredential: at Login success__ ",UserCredential);
-        // var credential = result.credential;
+
 
         UserCredential.then(
           (result) => {
             let useruid = result.user.uid;
             saveUser(result.user.uid);
             console.log("result__in Login: ", result);
-            // console.log("result.credential: ",result.credential);
-            // uid: string
+
 
             let useremail = result.user.email;
             console.log("useruid: ", useruid);
             console.log("useremail: ", useremail);
 
-            // return navigation.reset({
-            //     index: 0,
-            //     routes: [{ name: 'MonosHome' }],
-            // });
+
 
             return navigation.reset({
               index: 0,
-              routes: [{ name: 'BottomTabsMain' }],
+              routes: [{ name: 'DrawerNavigatorCustom' }],
 
-              // BottomTabsMain
-              // MonosHome
+
             });
-
-            // return navigation.navigate("MonosHome");
           },
 
           (error) => {
@@ -273,7 +279,8 @@ const Login: React.FC<Props> = ({ props, navigation }) => {
   };
 
   const ForgetPasswordHandler = () => {
-    return navigation.navigate('ForgetPassword');
+
+    Alert.alert("not implemented yet");
   };
 
   if (loadingState) {

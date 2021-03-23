@@ -43,7 +43,9 @@ const SplashScreen: React.FC<Props> = ({ props, navigation, route }) => {
         // const userToken = await MMKV.getAllKeys("userToken");
 
         const jsonUser = MMKV.getString('userToken'); // { 'username': 'Marc', 'age': 20 }
+          console.log("jsonUser: ",jsonUser);
         const userObject = JSON.parse(jsonUser);
+
 
 
         if (userObject === null) {
@@ -68,7 +70,7 @@ const SplashScreen: React.FC<Props> = ({ props, navigation, route }) => {
                     })
                 );
               },
-              2000
+              1000
           );
 
 
@@ -96,14 +98,15 @@ const SplashScreen: React.FC<Props> = ({ props, navigation, route }) => {
 
         return setTimeout(
             () => {
-              return navigation.dispatch(
-                  CommonActions.reset({
-                    index: 0,
-                    routes: [{name: 'DrawerNavigatorCustom'}],
-                  })
-              );
+                return navigation.dispatch(
+                    CommonActions.reset({
+                        index: 0,
+                        // routes: [{name: 'LoginScreen'}],
+                        routes: [{ name: 'LoginSignUP' }],
+                    })
+                );
             },
-            2000
+            1000
         );
 
 
@@ -131,7 +134,7 @@ const SplashScreen: React.FC<Props> = ({ props, navigation, route }) => {
         }}
       >
         {/*<ActivityIndicator size="large" color="crimson" />*/}
-        <Text> Please wait.</Text>
+        <Text> Splash Screen, Please wait.</Text>
       </View>
     </View>
   );

@@ -20,12 +20,10 @@ import {
     ActionSheetIOS,
     ScrollView,
 } from 'react-native';
-import { logger } from 'react-native-logs';
-const defaultImage = require('./../../../assets/default-image_01.jpg');
-import Video from 'react-native-video';
-import {Picker} from '@react-native-community/picker';
-// import URLInput from './general/URLInput';
-// import AsyncStorage from '@react-native-community/async-storage';
+
+
+import {Picker} from '@react-native-picker/picker';
+
 import Snackbar from 'react-native-snackbar';
 import FTI from 'react-native-vector-icons/Feather';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -33,20 +31,13 @@ import Entypo from 'react-native-vector-icons/Entypo';
 import MTI from 'react-native-vector-icons/MaterialIcons';
 import moment from 'moment';
 
-import ImagePicker from 'react-native-image-crop-picker';
-
-// import ImagePicker from 'react-native-image-picker';
 
 
-// import firebase from '@react-native-firebase/app';
-// import storage from '@react-native-firebase/storage';
-// import auth from '@react-native-firebase/auth';
-// import firestore from '@react-native-firebase/firestore';
-// import hairlineWidth = StyleSheet.hairlineWidth;
-// import {check, PERMISSIONS, RESULTS,request} from 'react-native-permissions';
-import {PERMISSIONS} from 'react-native-permissions';
-import helpers from '../../../../Helpers';
-import AvoidKeyboard from '../../monusPages/AvoidKeyboard';
+import firebase from '@react-native-firebase/app';
+
+import auth from '@react-native-firebase/auth';
+import firestore from '@react-native-firebase/firestore';
+
 
 export interface Props {
 
@@ -62,34 +53,10 @@ const ImageProps = {
     // path:string
     size: Number(0)
 };
-// key: '', value: false};
-// declare var URL: {
 
-/*
-declare var ImageProps {
-  // backgroundColor: string;
-  // color: string;
-  // url:string,
-  // isLoggedIn:boolean,
-
-  uri:string,
-  width:number;
-  duration?: number;
-  height:number;
-  mime:string;
-  modificationDate: string;
-  // path:string
-  size:number;
-}
-
-*/
 
 
 type PermissionStatus = 'unavailable' | 'denied' | 'blocked' | 'granted';
-
-// let Result_1 = PERMISSIONS.ANDROID.CAMERA;
-// let Result_2 = PERMISSIONS.ANDROID.READ_EXTERNAL_STORAGE;
-// let Result_3 = PERMISSIONS.ANDROID.WRITE_EXTERNAL_STORAGE;
 
 
 
@@ -129,97 +96,26 @@ const AddExpenseItemPage: React.FC<Props> = ({props,navigation}) => {
 
     const [itemPriceState,setItemPriceState] = useState('');
 
-    // const [avatarSourceState,setAvatarSourceState]= useState({});
 
 
 
 
 
-    const blankAvatarResouce = {
-        "duration": Number(0),
-        "height": Number(0),
-        "mime":  String(''),
-        //"video/mp4",
-        "modificationDate": String(''),
-        //"1600513715000",
-        "path": String(''),
-        //"file:///data/user/0/com.arefin.monozseptember/cache/react-native-image-crop-picker/mobizen_20200916_235614.mp4",
-        "size":Number(0),
-        // 29330365,
-        "width": Number(0),
-        // 720
 
-    };
-
-
-
-    console.log('____ _____ blankAvatarResouce: ',blankAvatarResouce);
-
-
-    const populatedDummyArray = Array(4).fill(
-        {...blankAvatarResouce});
-
-
-
-
-
-    console.log('____ _____ populatedDummyArray: ',populatedDummyArray);
-
-    // const [avatarSourceState, setAvatarSourceState] = useState(populatedDummyArray);
-
-
-    /*
-    const [avatarSourceState, setAvatarSourceState] = useState( new Array<{
-        duration?: number,
-        height:number,
-        mime:string,
-        modificationDate: string,
-        // path:string,
-      uri:string,
-        size:number,
-        width:number,
-    }>());
-
-    */
-
-
-
-    // image: null,
-    //   images:
 
     const [xxp,setX]= useState(0);
 
-    const [avatarSourceState, setAvatarSourceState]  = useState(
-        // { uri: string; width: number; height: number; mime: string; }[]
 
-        new Array<{
-            uri:string,
-            width:number;
-            duration?: number;
-            height:number;
-            mime:string;
-            modificationDate: string;
-            // path:string
-            size:number;
-        }>()
-
-
-    );
 
     // image: null,
     //   images: null,
 
 
-    // const [avatarSourceState,setAvatarSourceState]= useState([]);
 
     const [saveDisabledState, setSaveDisabledState] =useState(true);
 
-    var log = logger.createLogger();
 
-    // log.debug('This is a Debug log');
-    // log.info('This is an Info log');
-    // log.warn('This is a Warning log');
-    // log.error('This is an Error log');
+
 
     /* for price */
 
@@ -247,105 +143,19 @@ const AddExpenseItemPage: React.FC<Props> = ({props,navigation}) => {
         //var CANCEL_INDEX = 4;
         ActionSheetIOS.showActionSheetWithOptions({
                 options: Buttons,
-                //cancelButtonIndex: CANCEL_INDEX,
+
             },
             (buttonIndex) => {
                 setSelectedOneCategoryState(Buttons[buttonIndex]);
-                // console.log('selectedCurrencyState: ', selectedCurrencyState)
-                // console.log('selectedCurrencyState: ', Buttons[buttonIndex])
+
             });
     };
 
-    const renderAsset = (image22:{
-        uri:string,
-        width:number;
-        duration?: number;
-        height:number;
-        mime:string;
-        modificationDate: string;
-        // path:string
-        size:number;
-    }) => {
-        // renderAsset(image) {
-        if (image22.mime && image22.mime.toLowerCase().indexOf('video/') !== -1) {
-            return renderVideo(image22);
-        }
-
-        return renderImage(image22);
-    }
-
-    const renderVideo = ((video22:{
-        uri:string,
-        width:number;
-        duration?: number;
-        height:number;
-        mime:string;
-        modificationDate: string;
-        // path:string
-        size:number;
-    })=>{
-        // renderVideo(video) {
-        console.log('rendering video');
-        return (
-            <View style={{ height: 300, width: 300 }}>
-                <Video
-                    source={{ uri: video22.uri, type: video22.mime }}
-                    style={{ position: 'absolute', top: 0, left: 0, bottom: 0, right: 0 }}
-                    rate={1}
-                    paused={false}
-                    volume={1}
-                    muted={true}
-                    resizeMode={'cover'}
-                    onError={(e) => console.log(e)}
-                    onLoad={(load) => console.log(load)}
-                    repeat={true}
-                />
-            </View>
-        );
-    });
-
-    const renderImage = ((image:{
-        uri:string,
-        width:number;
-        duration?: number;
-        height:number;
-        mime:string;
-        modificationDate: string;
-        // path:string
-        size:number;
-    })=>{
-        // renderImage(image) {
-        return (
-            <Image
-                style={{ width: 300, height: 300, resizeMode: 'contain' }}
-                source={image}
-            />
-        );
-    });
-
-
-    // const callBackSetItemNameState
-    // const callBackSetItemCategoryState
-    // const callBackSetItemTagState
-    // const callBackSetItemDetailState
-    //
-    // const callBackSetItemNameState = React.useCallback(
-    //   text => {
-    //     // const newSelected = new Map(selected);
-    //     // newSelected.set(id, !selected.get(id));
-    //
-    //     setItemNameState(text);
-    //   },
-    //   [],
-    // );
-
-    // console.log("itemNameState: ",itemNameState);
 
 
 
     const deviceWidth = Dimensions.get('window').width;
-    // console.log('deviceWidth: ',deviceWidth);
-    // console.log('deviceHeight: ',Dimensions.get('window').height);
+
 
 
     // let today =Date.now();
@@ -357,13 +167,12 @@ const AddExpenseItemPage: React.FC<Props> = ({props,navigation}) => {
             .map(word => word.charAt(0).toUpperCase() + word.slice(1))
             .join(' ');
     }
-    // console.log("avatarSourcURIeState: ",avatarSourcURIeState);
 
 
     const closePageAndBack=()=>{
         console.log(" at add asset item's closePageAndBack ");
 
-        return navigation.navigate('MonosHome')
+        return navigation.navigate('DrawerNavigatorCustom')
     }
 
     const _goTo_FMPWebView=()=>{
@@ -373,60 +182,6 @@ const AddExpenseItemPage: React.FC<Props> = ({props,navigation}) => {
 
 
 
-    /*
-    check(PERMISSIONS.IOS.LOCATION_ALWAYS)
-      .then(result => {
-        switch (result) {
-          case RESULTS.UNAVAILABLE:
-            console.log(
-              'This feature is not available (on this device / in this context)',
-            );
-            break;
-          case RESULTS.DENIED:
-            console.log(
-              'The permission has not been requested / is denied but requestable',
-            );
-            break;
-          case RESULTS.GRANTED:
-            console.log('The permission is granted');
-            break;
-          case RESULTS.BLOCKED:
-            console.log('The permission is denied and not requestable anymore');
-            break;
-        }
-      })
-      .catch(error => {
-        // …
-      });
-
-    */
-    // const saveAction = async () =>{
-
-
-    // check(APermission)
-    //   .then(result => {
-    //     // console.log("parameter: ",parameter);
-    //     switch (result) {
-    //       case RESULTS.UNAVAILABLE:
-    //         return 'unavailable'
-    //         // console.log(
-    //         //   'This feature is not available (on this device / in this context)',
-    //         // );
-    //         // break;
-    //       case RESULTS.DENIED:
-    //         return 'denied';
-    //       case RESULTS.GRANTED:
-    //         return 'granted';
-    //       case RESULTS.BLOCKED:
-    //         return 'blocked';
-    //     }
-    //   })
-    //   .catch(error => {
-    //     console.log("error: ", error);
-    //   });
-
-    // const selectPhotoTapped=() =>{
-    //  selectPhotoTappedAndPermissions();
 
 
     const request_Write_Read_EXTERNAL_STORAGE_Permission = async ()=>{
@@ -637,7 +392,7 @@ const AddExpenseItemPage: React.FC<Props> = ({props,navigation}) => {
                     },
                     style: 'cancel',
                 },
-                {text: 'OK',  onPress: () => console.log("OK Pressed");
+                {text: 'OK',  onPress: () => console.log("OK Pressed"),
 
                     // onPress: setCondition2
 
@@ -649,47 +404,6 @@ const AddExpenseItemPage: React.FC<Props> = ({props,navigation}) => {
     // let Result_1 = PERMISSIONS.ANDROID.CAMERA;
 // let Result_2 = PERMISSIONS.ANDROID.READ_EXTERNAL_STORAGE;
 // let Result_3 = PERMISSIONS.ANDROID.WRITE_EXTERNAL_STORAGE;
-
-
-    const pickMultiple = /* async */() => {
-
-        console.log('at pickMultiple =()');
-
-        log.info('at pickMultiple =()');
-
-        // pickMultiple() {
-        ImagePicker.openPicker({
-            multiple: true,
-            waitAnimationEnd: false,
-            sortOrder: 'desc',
-            includeExif: true,
-            forceJpg: true,
-        })
-            .then((images) => {
-
-                let avatarSourceState2 = images.map((i) => {
-                    console.log('received image', i);
-                    return {
-                        uri: i.path,
-                        width: i.width,
-                        height: i.height,
-                        mime: i.mime,
-                    };
-                });
-
-                log.info('\n\n => avatarSourceState2: ',avatarSourceState2);
-
-
-                setX(12);
-
-                console.log('----------\n\n==========> xxp: \n',xxp);
-                setAvatarSourceState(avatarSourceState2);
-
-                return;
-
-            })
-            .catch((e) => alertMessageInImageUpload(e));
-    }
 
     const validate_Name_Empty_String=(nameParam:string)=> {
         console.log('at validation nameParam : ',nameParam);
@@ -704,68 +418,27 @@ const AddExpenseItemPage: React.FC<Props> = ({props,navigation}) => {
 
 
 
-    /*
-
-    const validate_Tag_Empty_String=(tagParam:string)=> {
-      console.log('at validation tagParam : ',tagParam);
-      if( !tagParam || !typeof(tagParam) || tagParam === '' ||
-        tagParam.length===0)
-        return false;
-      else{
-        return true;
-      }
-
-    }
-
-
-
 
     const validate_Category_Empty_String=(CategoryParam:string)=> {
-      console.log('at validation CategoryParam : ',CategoryParam);
-      if( !CategoryParam || !typeof(CategoryParam) || CategoryParam === '' ||
-        CategoryParam.length===0)
-        return false;
-      else{
-        return true;
-      }
+        console.log('at validation CategoryParam : ',CategoryParam);
+        if( !CategoryParam || !typeof(CategoryParam) || CategoryParam === '' ||
+            CategoryParam.length===0)
+            return false;
+        else{
+            return true;
+        }
 
     }
 
     const validate_Amount_func=(amountParam:any)=> {
-      console.log('at validation amountParam : ',amountParam);
-      if( !amountParam || !typeof(amountParam) || amountParam === '' ||
-        amountParam.length===0|| isNaN(amountParam)||amountParam===0)
-        return false;
-      else{
-        return true;
-      }
+        console.log('at validation amountParam : ',amountParam);
+        if( !amountParam || !typeof(amountParam) || amountParam === '' ||
+            amountParam.length===0|| isNaN(amountParam)||amountParam===0)
+            return false;
+        else{
+            return true;
+        }
     }
-
-    */
-
-    // const validate_URL_Empty_String=(urlParam:string)=> {
-    //   console.log('at validation urlParam : ',urlParam);
-    //   if( !urlParam || !typeof(urlParam) || urlParam === '' ||
-    //     urlParam.length===0)
-    //     return false;
-    //   else{
-    //     return true;
-    //   }
-    //
-    // }
-    /*
-    const validate_Detail_Empty_String=(detailParam:string)=> {
-      console.log('at validation detailParam : ',detailParam);
-      if( !detailParam || !typeof(detailParam) || detailParam === '' ||
-        detailParam.length===0)
-        return false;
-      else{
-        return true;
-      }
-
-    }
-    */
-
 
 
     const getRandomArbitrary =(min:number, max:number /* number */)=> {
@@ -781,140 +454,15 @@ const AddExpenseItemPage: React.FC<Props> = ({props,navigation}) => {
         const _allowedChars =
             'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
 
-        // console.log('_allowedChars[4]: ',_allowedChars[4]);
-
-
         while (i < Math.round(length)) {
-            //Get random int
+
             let randomInt =getRandomArbitrary(0,_allowedChars.length);
 
-            // console.log('\n randomInt['+ i +']: ',randomInt);
-
-            // Random.secure().nextInt(_allowedChars.length);
-
-            // console.log('_allowedChars[randomInt] ::: ' ,_allowedChars[randomInt]);
             _result += _allowedChars[randomInt];
 
             ++i;
         }
-
-//    console.log('_result: ',_result);
-
         return _result;
-    }
-
-
-
-
-
-
-    const uploadImages = async (userEmail:string|null/*,itemId:string */) =>{
-        // Future<List<String>> uploadImage(
-        //   {@required String fileName, @required List<Asset> assets}) async {
-        //   List<String> uploadUrls = [];
-
-        const uploadURLs: /*{
-      url:string,
-      itemId: string,
-    } */ any[]=[];
-
-
-
-        const parentRef = storage().ref('images/');
-
-        // avatarSourceState
-
-
-
-
-        //1---------
-
-        try {
-            let i=0;
-            for (i ; i < avatarSourceState.length; i++) {
-
-                // let itemId = Math.random();
-                let itemId = await generateItemId(9);
-                // console.log('itemId: ___________________________', itemId);
-                const fileName = itemNameState + itemId +'.'+ avatarSourceState[i].mime.split('/')[1];
-
-                // str = str.split(":")[0];
-
-                // console.log('\n\n\n fileName -----> : ',fileName);
-
-
-                const childRef = parentRef.child(userEmail + 'New/' + fileName  /*file.name*/);
-
-                const path = avatarSourceState[i].uri;
-
-                // const childRef = parentRef.child(userEmail + 'New/' + file.name);
-
-                console.log('\n\n\n ?????? \n\n  at metaData part',avatarSourceState[i].width.toString() );
-
-                const duration2 =            avatarSourceState[i].duration !== undefined ?
-                    avatarSourceState[i].duration.toString() : '';
-
-
-                console.log('duration2 ['+i+']: ',duration2 );
-                console.log('avatarSourceState['+i+'].height.toString()',
-                    avatarSourceState[i].height.toString());
-                // console.log('avatarSourceState[i].modificationDate',
-                //   avatarSourceState[i].modificationDate);
-                console.log('avatarSourceState['+i+'].size',
-                    avatarSourceState[i].size);
-
-                console.log('\n\n\n ==============================');
-
-
-                const task = await childRef.putFile(path, {
-                    contentType: avatarSourceState[i].mime,
-                    cacheControl: 'no-store', // disable caching
-                    customMetadata: {
-                        'itemName':         itemNameState,
-                        'width':             avatarSourceState[i].width.toString(),
-                        'height':            avatarSourceState[i].height.toString(),
-                    }
-                    // name: timestamp.toString(),
-                }).then(async function(snapshot) {
-                    // console.log('Uploaded a blob or file!');
-                    // console.log('snapshot: ', snapshot);
-                    const b:any = snapshot;
-                    // console.log('b.contentType: ',b.contentType);
-                    console.log('b.bytesTransferred: ',b.bytesTransferred);
-
-                    console.log('b.metadata.contentType: ',b.metadata.contentType);
-
-
-                    console.log('b.metadata.contentType: ',b.metadata.contentType);
-
-                    console.log('b.metadata.customMetadata.itemName: ',b.metadata.customMetadata.itemName);
-
-                    console.log('b.metadata.fullPath: ',b.metadata.fullPath);
-
-
-                    let returnOneStorageData = {url:b.metadata.fullPath, itemId:itemId};
-                    // const url = await childRef.getDownloadURL();
-                    // let returnOneStorageData = {url:url, itemId:itemId};
-
-                    // let returnStorageDataOne= {
-                    //   url:string,
-                    //   itemId: string,
-                    // }
-
-                    // String imageUrl = await storageReference.getDownloadURL();
-                    uploadURLs.push(returnOneStorageData); //all all the urls to the list
-
-                }).catch(error => {
-                    console.log("error in storing file to Firebase Storage at addItemModal Page... Asset: ", error);
-                });
-
-            }
-        }
-        catch (e) {
-            console.log('error in outer fo loop for storing image: ',e);
-        }
-
-        return uploadURLs;
     }
 
 
@@ -922,33 +470,14 @@ const AddExpenseItemPage: React.FC<Props> = ({props,navigation}) => {
     const saveAction = async () =>{
         console.log('at save action for add Items');
 
-
-// with out validation test
-
         let validate_Name     =     false;
 
-        /*
-        let validate_Category =     true;
-        let validate_Tag      =     true;
-        let validate_Amount   =     true;
-        // let validate_URL      =  true;
-        let validate_Detail   =     true;
-        */
+
         let AvatarSource_empty =    false;
 
 
         validate_Name = validate_Name_Empty_String(itemNameState)=== false? false:true;
-        // validate_Category = validate_Category_Empty_String(itemCategoryState)===false?
-        //   false:true;
-        // validate_Tag = validate_Tag_Empty_String(itemTagState)===false?false:true;
-        //
-        // validate_Amount = validate_Amount_func(currentAmountState)===false?false:true;
-        // // validate_URL  = validate_URL_Empty_String(itemURLState)===false?false:true;
-        //
-        // validate_Detail = validate_Detail_Empty_String(itemDetailState)===false?false:true;
-        //
-        // AvatarSource_empty = Object.entries(avatarSourceState).length === 0
-        //   ?true:false;
+
 
         if (validate_Name === false) {
             ToastAndroid.show(
@@ -960,41 +489,14 @@ const AddExpenseItemPage: React.FC<Props> = ({props,navigation}) => {
         }
 
 
-
-
-
-            // else if (validate_Detail== false) {
-            //   ToastAndroid.show(
-            //     'Sorry, Detail format is incorrect/empty',
-            //     ToastAndroid.SHORT,
-            //   );
-            //   setLoadingState(false);
-            //   return navigation.navigate('AddExpenseItemPage');
-            // }
-
-            // else if (AvatarSource_empty){
-            //   ToastAndroid.show(
-            //     'please select a picture.',
-            //     ToastAndroid.SHORT,
-            //   );
-            //   setLoadingState(false);
-            //   return navigation.navigate('AddExpenseItemPage');
-        // }
-
         else {
 
             setLoadingState(true);
             console.log('validation success: ');
-            console.log('avatarSourceState: --- ',avatarSourceState);
+            // console.log('avatarSourceState: --- ',avatarSourceState);
 
+            // if((avatarSourceState === null) ||(avatarSourceState.length===0)){
 
-            // for empty image
-
-            // if((avatarSourceState== null) ||(avatarSourceState.length==0)){
-            if((avatarSourceState === null) ||(avatarSourceState.length===0)){
-                // if((Object.entries(avatarSourceState).length === 0)
-                //   &&(
-                //     avatarSourceState.constructor === Object)){
                 const user = auth().currentUser
                 if (user !== null){
                     const userEmail = user.email;
@@ -1034,202 +536,33 @@ const AddExpenseItemPage: React.FC<Props> = ({props,navigation}) => {
                     console.log(convertedPrice, convertedPrice);
 
 
-                    console.log('avatarSourceState.uri [without Image:', avatarSourceState[0].uri);
-
                     let addDoc = firestore().collection('items').add({
                         itemData:{
                             'nameText' : itemNameState,
-                            'nameTextHalfWidth': toHalfWidth(itemNameState),
                             'categoryText' : itemCategoryState,
-                            'tagText' : itemTagState,
                             'amountNumber' : currentAmountState,
-                            'urlText' : itemURLState,
-                            'detailText': itemDetailState,
-                            'imageURL': null,
-                            //avatarSourceState[0].uri,
-                            // 'type':,
-                            // 'imageURL': '',
                             'priceText':convertedPrice,
-                            'haveItCondition':true,
+                            'brought':true,
                         },
                         'date' :timestamp,
                         'uploadedBy': userEmail,
                         'user': userEmail,
                         'itemId':itemId,
 
-
                     }).then(ref => {
                         console.log('Added document with ID: ', ref.id);
                         // setLoadingState(false);
 
-                        return navigation.navigate('MonosHome', {
+                        return navigation.navigate('DrawerNavigatorCustom', {
                             itemNameTrueOrFalse: true,
                         });
-                        // return navigation.navigate('MonosHome')
-                        // return navigation.navigate('AddExpenseItemPage');
 
                     }).catch(error => {
                         console.log("error in storing to cloud store: ", error);
                     });
                 }
-
-            }
-
-
-
-            // for not empty image. put image in firestore with image url.
-            else {
-
-                let date = new Date();
-                let timestamp = date.getTime();
-
-
-                // sort to upload images first then vidos..., thus we can show images[0] first in assetList page..
-
-
-
-                /*
-                const file = {
-                  uri: avatarSourceState[0].uri,
-                  //'assets-library://asset/asset.PNG?id=655DBE66-8008-459C-9358-914E1FB532DD&ext=PNG',
-                  name: itemId+'itemName.png',
-                  type: 'assets/png',
-                };
-
-                */
-
-
-                // let convertedPrice =itemPriceState;
-
-
-                const convertedPrice =
-                    selectedOneCategoryState === MonetaryUnits[0].unicode
-                        ?
-                        (Number(itemPriceState)).toFixed(3)
-                        // above is dollar
-                        : selectedOneCategoryState === MonetaryUnits[1].unicode
-                        ?
-                        (Number(itemPriceState) * Number(
-                            ConversionRate.EuroToDollar)).toFixed(3)
-                        // // above is Euro to dollar
-                        : selectedOneCategoryState === MonetaryUnits[2].unicode
-                            ?
-                            (Number(itemPriceState) / Number(
-                                ConversionRate.DollarToYen)).toFixed(3)
-                            // above is  Yen to dollar
-                            :
-                            (Number(itemPriceState) / Number(
-                                ConversionRate.DollarToTaka)).toFixed(3);
-
-                // above is Taka to Dollar
-
-
-                console.log('convertedPrice: ', convertedPrice);
-
-
-                const user = auth().currentUser
-                if (user !== null){
-                    const userEmail = user.email;
-
-                    console.log('timestamp: ', timestamp);
-
-
-
-                    let uploadedURLsAND_itemId:{
-                        url:string,
-                        itemId: string,
-                    }[]=[];
-
-                    uploadedURLsAND_itemId = await uploadImages(userEmail);
-
-                    console.log('\n\n uploadURLs2.length: ',uploadedURLsAND_itemId.length);
-
-                    log.warn('\n\n\n\n to be checked later....');
-
-                    let allImageurl:string[]=[];
-
-                    let allItemIds:string[]=[];
-
-
-                    let i = 0;
-
-                    for (i = 0; i < uploadedURLsAND_itemId.length; i++) {
-                        // url:url, itemId:itemId
-
-                        let strLength: number = ('222' as string).length;
-                        let uploadURLs22: {
-                            url:string,
-                            itemId: string,
-                        }  = uploadedURLsAND_itemId[i];
-
-
-                        const oneImageURL = uploadURLs22.url;
-                        const oneImage_itemId = uploadURLs22.itemId;
-
-                        // const storageBucketPredicate=
-                        //   // 'https://console.firebase.google.com/project/monozseptember2020/storage/monozseptember2020.appspot.com/';
-                        //   'https://firebasestorage.googleapis.com/v0/b/monozseptember2020.appspot.com/o/';
-                        //
-                        // const finalURLWithStorageBucketPredicate = decodeURIComponent(oneImageURL).replace(
-                        //   storageBucketPredicate,
-                        //   '');
-
-
-                        allImageurl.push(oneImageURL);
-
-                        allItemIds.push(oneImage_itemId);
-
-                    };
-                    // ---- ||||||||||||||||||
-
-                    // return ;
-
-                    // to be checked later....
-
-                    console.log('url: ', uploadedURLsAND_itemId);
-                    let addDoc = firestore().collection('items').add({
-                        itemData:{
-                            'nameText' : itemNameState,
-                            'nameTextHalfWidth': toHalfWidth(itemNameState),
-                            'categoryText' : itemCategoryState,
-                            'tagText' : itemTagState,
-                            'amountNumber' : currentAmountState,
-                            'urlText' : itemURLState,
-                            'detailText': itemDetailState,
-                            'imageURL': allImageurl,
-                            'priceText':convertedPrice,
-                            'haveItCondition':true,
-                        },
-                        'date' :timestamp,
-                        'uploadedBy': userEmail,
-                        'user': userEmail,
-                        'itemId':allItemIds,
-
-
-                    }).then( (ref) => {
-                        console.log('Added document with ID: ', ref.id);
-                        // setLoadingState(false);
-
-                        return navigation.navigate('MonosHome', {
-                            itemNameTrueOrFalse: true,
-                        });
-                        // return navigation.navigate('MonosHome')
-                        // return navigation.navigate('AddExpenseItemPage');
-
-                    }).catch(  (error) => {
-                        console.log("error in storing to cloud store: ", error);
-                    });
-
-
-                }
-            }
-
-
         }
-
     }
-
-
 
     const submitRequest=()=>
     {
@@ -1406,11 +739,7 @@ const AddExpenseItemPage: React.FC<Props> = ({props,navigation}) => {
         console.log("Add Item Modal Page");
 
         console.log('xxp: ',xxp);
-        console.log('near xxp: : :: avatarSourceState.length: ',avatarSourceState.length);
 
-        if((avatarSourceState !==null) &&(avatarSourceState.length>0)) {
-            console.log('avatarSourceState[0].uri: ', avatarSourceState[0].uri);
-        }
 
         // console.log('saveDisabledState: ',saveDisabledState);
         return (
@@ -1421,7 +750,7 @@ const AddExpenseItemPage: React.FC<Props> = ({props,navigation}) => {
 
 
                 <SafeAreaView style={AddExpenseItemPageStyles.safeAreaViewcontainer}>
-                    <AvoidKeyboard>
+                    {/*<AvoidKeyboard>*/}
                         <View style={{
                             flex: 9,
                             flexDirection:'column',
@@ -1431,164 +760,6 @@ const AddExpenseItemPage: React.FC<Props> = ({props,navigation}) => {
 
                             {/*3*/}
 
-
-                            <View
-                                style={{flex:4}}
-                            >
-                                <View style={{flex:0.4,
-                                    flexDirection:'row',
-                                    justifyContent:'flex-start',
-                                    // padding:20,
-                                    // paddingTop:10,
-                                    paddingLeft:14,
-                                    // paddingBottom:20,
-                                    paddingTop:8,
-                                }}
-                                >
-                                    <TouchableOpacity
-                                        onPress={closePageAndBack}
-                                    >
-                                        <FTI
-                                            name='x'
-                                            // name='x-square'
-                                            size={30}
-                                            color='black'
-                                        />
-                                    </TouchableOpacity>
-                                </View>
-                                <TouchableWithoutFeedback  onPress={()=>{
-                                    Keyboard.dismiss()
-
-                                    console.log('keyboard dismissed Add Wish Item Close Row');
-
-                                }}>
-                                    <View style={{
-                                        flex:0.3,
-                                        flexDirection:'row',
-                                        justifyContent:'flex-end',
-                                        marginRight:20,
-                                        paddingBottom:2,
-                                        minHeight:16,
-                                        // height:18,
-                                    }}
-                                    >
-                                        <Text style={{
-                                            // color:'#3B8489',
-                                            // fontWeight:'bold',
-                                            fontSize:14,
-                                            color: '#8E8E93',
-                                        }}>
-                                            {today2}</Text>
-                                    </View>
-                                </TouchableWithoutFeedback>
-
-                                {/*//911_1*/}
-                                {/*//work_1*/}
-
-
-                                {
-                                    // Object.entries(avatarSourceState).length === 0
-                                    /*((avatarSourceState== null) ||(avatarSourceState.length==0))*/
-                                    ((avatarSourceState.length === 0))
-                                        // &&
-                                        // avatarSourceState.constructor === Object
-
-                                        ?(
-                                            <View
-                                                style={{flex:4}}
-                                            >
-                                                <TouchableOpacity
-                                                    style={{
-                                                        flex:4,
-                                                        flexDirection:'column',
-                                                    }}
-                                                    onPress={async () => {
-                                                        if (Platform.OS === 'ios') {
-                                                            helpers.checkAndRequestPermission(PERMISSIONS.IOS.CAMERA)
-                                                            helpers.checkAndRequestPermission(PERMISSIONS.IOS.PHOTO_LIBRARY)
-                                                            pickMultiple();
-                                                            // selectPhotoTapped();
-                                                            //navigation.navigate('CameraPage')
-                                                        } else if (Platform.OS === 'android') {
-
-                                                            await request_Write_Read_EXTERNAL_STORAGE_Permission();
-                                                            await helpers.checkAndRequestPermission(PERMISSIONS.ANDROID.CAMERA)
-
-                                                            // helpers.checkAndRequestPermission(PERMISSIONS.ANDROID.)
-                                                            // helpers.checkAndRequestPermission(PERMISSIONS.IOS.PHOTO_LIBRARY)
-                                                            pickMultiple();
-                                                            // invoke_camera();
-                                                        } else {
-                                                            console.log("not adapted")
-                                                        }
-                                                    }}
-                                                >
-                                                    <Image
-                                                        style={{
-                                                            flex:4,
-                                                            width:deviceWidth * 0.90,
-                                                            flexDirection:'column',
-                                                            marginLeft: 18,
-                                                            marginRight:18,
-                                                        }}
-                                                        source={defaultImage}
-                                                    />
-                                                </TouchableOpacity>
-
-                                            </View>):(
-
-
-
-
-                                            <View style={{
-                                                flex:4,
-                                                flexDirection:'column',
-                                            }}
-                                            >
-                                                <ScrollView
-                                                    horizontal={true}
-                                                    contentContainerStyle={
-                                                        styles.contentContainer}
-                                                >
-                                                    {/*{this.state.image ? this.renderAsset(this.state.image) : null}*/}
-                                                    {
-                                                        avatarSourceState
-                                                            ? avatarSourceState.map((i) => (
-                                                                <View key={i.uri}>{renderAsset(i)}</View>
-                                                            ))
-                                                            : null
-                                                    }
-                                                </ScrollView>
-
-
-                                                <View
-                                                    style={{
-                                                        backgroundColor: '#EA555C',
-                                                    }}
-                                                >
-                                                    <Text style={{
-                                                        paddingLeft: 20,
-                                                        paddingRight:20,
-                                                    }}> to change picture/vidoe now please,
-                                                        press cancel and add preferred picture and video again.</Text>
-                                                </View>
-
-                                            </View>
-
-
-
-
-
-
-
-
-
-
-                                        )
-                                }
-                                {/*// image related codes ends here...*/}
-
-                            </View>
 
                             {/*Start*/}
                             <TouchableWithoutFeedback onPress={()=>{
@@ -1685,43 +856,6 @@ const AddExpenseItemPage: React.FC<Props> = ({props,navigation}) => {
                                                     />
                                                 </View>
                                             </View>
-                                            <View style={AddExpenseItemPageStyles.Row}
-                                            >
-                                                <View
-                                                    style={{
-
-                                                        justifyContent:'center',
-
-                                                    }}
-                                                >
-                                                    <Text style={
-                                                        AddExpenseItemPageStyles.tableSideColumn
-
-
-                                                    }>
-                                                        Tag
-                                                    </Text>
-                                                </View>
-                                                <View  style={{
-                                                    // flex:1,
-                                                    // justifyContent:'flex-end',
-                                                    justifyContent:'center',
-                                                }} >
-                                                    <TextInput
-                                                        style={AddExpenseItemPageStyles.TextInputRightTextBox}
-                                                        placeholder={'identifier'}
-                                                        ref={refTag}
-                                                        // onChangeText={onChange}
-                                                        onChangeText={value => setTag({value})}
-                                                        autoCorrect={false}
-                                                        textContentType={'none'}
-                                                        autoCapitalize={'none'}
-                                                        keyboardType={'default'}
-                                                        onSubmitEditing={_goToURL}
-                                                        returnKeyType={'next'}
-                                                    />
-                                                </View>
-                                            </View>
 
 
 
@@ -1752,49 +886,9 @@ const AddExpenseItemPage: React.FC<Props> = ({props,navigation}) => {
                                                     {PlusIcon}
                                                 </View>
                                             </View>
-                                            <View
-                                                style={AddExpenseItemPageStyles.Row}
-                                            >
-
-                                                <View
-                                                    style={{
-
-                                                        justifyContent:'center',
-
-                                                    }}
-                                                >
-                                                    <Text style={
-                                                        AddExpenseItemPageStyles.tableSideColumn
 
 
-                                                    }>URL
-                                                    </Text>
-                                                </View>
 
-
-                                                <View  style={{
-                                                    // flex:1,
-                                                    // justifyContent:'flex-end',
-                                                    justifyContent:'center',
-                                                }} >
-                                                    <TextInput
-                                                        style={[AddExpenseItemPageStyles.TextInputRightTextBox,
-                                                            // {borderColor:'red',borderWidth:2}
-                                                        ]}
-                                                        placeholder={'url'}
-                                                        ref={refURL}
-                                                        // onChangeText={onChange}
-                                                        onChangeText={value => setURL({value})}
-                                                        autoCorrect={false}
-                                                        textContentType={'none'}
-                                                        autoCapitalize={'none'}
-                                                        keyboardType={'default'}
-                                                        onSubmitEditing={_goToPrice}
-                                                        returnKeyType={'next'}
-
-                                                    />
-                                                </View>
-                                            </View>
                                             <View
                                                 style={AddExpenseItemPageStyles.RowPrice}
                                             >
@@ -1909,13 +1003,9 @@ const AddExpenseItemPage: React.FC<Props> = ({props,navigation}) => {
                                             height:44,
                                             minHeight:44,
                                             borderRadius:5,
-
-                                            // flex:1,
                                             alignItems: 'stretch',
                                             backgroundColor: '#A39E9D'
-                                            // #8E8E93
-                                            // #A39E9D
-                                            // lightslategrey (#778899)
+
                                         }}
                                         onPress={closePageAndBack}
                                     >
@@ -1957,7 +1047,7 @@ const AddExpenseItemPage: React.FC<Props> = ({props,navigation}) => {
                             </View>
                         </View>
                         {/*Column Height of this view*/}
-                    </AvoidKeyboard>
+                    {/*</AvoidKeyboard>*/}
                 </SafeAreaView>
             </View>
 

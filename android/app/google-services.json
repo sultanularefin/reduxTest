@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "622724591535",
+    "project_id": "reduxtestarefin",
+    "storage_bucket": "reduxtestarefin.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:622724591535:android:1d45ce09f13a3d3024895a",
+        "android_client_info": {
+          "package_name": "com.arefin.reduxtest"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "622724591535-ib3j75rqo60tsfn1otjpo3c42pvulikr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCK_eJvQHaBpX23axIY4SK4QUiZI61sDl8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "622724591535-ib3j75rqo60tsfn1otjpo3c42pvulikr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

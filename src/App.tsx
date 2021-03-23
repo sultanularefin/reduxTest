@@ -1,12 +1,33 @@
 import * as React from 'react';
-import { Button, View } from 'react-native';
-import { createDrawerNavigator } from '@react-navigation/drawer';
+import {
+    Button,
+    View,
+    Alert
+} from 'react-native';
+
 import { NavigationContainer } from '@react-navigation/native';
 import DashBoardHome from './dashBoardHome/DashBoardHome';
 import { createStackNavigator } from '@react-navigation/stack';
 import SplashScreen from './identity/SplashScreen';
 import Login from "./identity/LoginSignUP/Login";
 import LoginSignUP from "./identity/LoginSignUP/LoginSignUP";
+import AddExpenseItemPage from "./dashBoardHome/AddExpenseItemPage";
+import {CommonActions} from "@react-navigation/native";
+
+// .. all drawer import starts here
+import { createDrawerNavigator } from '@react-navigation/drawer';
+import {
+    DrawerContentScrollView,
+    DrawerItemList,
+    DrawerItem
+} from '@react-navigation/drawer';
+
+// .. all drawer import edns here
+// import MMKV from "react-native-mmkv-storage";
+
+import { MMKV } from 'react-native-mmkv';
+
+
 
 const Stack = createStackNavigator();
 
@@ -21,6 +42,89 @@ const Home = ({ navigation }) => {
     </View>
   );
 };
+
+
+
+const CustomDrawerContent =({ props, navigation }) => {
+
+
+
+    const removeValue = async () => {
+        try {
+
+            await MMKV.delete('userToken');
+            // await AsyncStorage.removeItem('user_id');
+
+
+            console.log('logout');
+
+
+            return navigation.dispatch(
+                CommonActions.reset({
+                    index: 0,
+                    routes: [{ name: 'IdentityStackNavigator' }],
+                })
+            );
+        } catch (error) {
+            console.log('error: logout.... ', error);
+            Alert.alert('not implemented');
+
+        }
+
+
+    };
+
+
+    const logout = () => {
+        Alert.alert (
+            'Logout',
+            'Are you sure you want to logout?',
+            [
+                {
+                    text: 'No',
+                    onPress: () => {
+                        return null;
+                    },
+                },
+                {
+                    text: 'Yes',
+                    onPress: async () => {
+
+
+
+                        await removeValue();
+
+
+                    },
+                },
+            ],
+            {cancelable: false}
+        );
+    };
+
+
+    return (
+        <DrawerContentScrollView {...props}>
+
+            {/*<DrawerItemList {...props} />*/}
+
+            <DrawerItem
+                label="Logout"
+                // onPress={() => Linking.openURL('https://mywebsite.com/help')}
+                onPress={() => logout()}
+            />
+
+            <DrawerItem
+                label="DashBoard"
+                // onPress={() => Linking.openURL('https://mywebsite.com/help')}
+                onPress={() => navigation.navigate('DrawerNavigatorCustom')}
+            />
+
+
+        </DrawerContentScrollView>
+    );
+}
+
 
 const DetailsScreen = ({ navigation }) => {
   return (
@@ -70,6 +174,30 @@ const IdentityStackNavigator = () => {
         }}
       />
 
+        <Stack.Screen
+            name="AddExpenseItemPage"
+            component={AddExpenseItemPage}
+            options={{
+
+                title: 'Add Expense Item and Category',
+                headerStyle: {
+
+
+                },
+                headerTitleStyle: {
+
+                    alignSelf: "center",
+                    justifyContent: 'center',
+                    // fontSize: 22,
+                    // fontWeight: "600",
+                },
+
+                // headerBackTitle: 'ss',
+            }}
+        />
+
+
+
       <Stack.Screen
         name="DrawerNavigatorCustom"
         component={DrawerNavigatorCustom}
@@ -104,6 +232,8 @@ const NotificationsScreen = ({ navigation }) => {
 
 const Drawer = createDrawerNavigator();
 
+
+
 const DrawerNavigatorCustom = () => {
   return (
     // <Drawer.Navigator>
@@ -112,6 +242,8 @@ const DrawerNavigatorCustom = () => {
     // </Drawer.Navigator>
 
     <Drawer.Navigator
+
+        drawerContent={CustomDrawerContent}
       // initialRouteName="DashBoard"
       initialRouteName="DashBoardHome"
       // initialRouteName="IdentityStackNavigator"

@@ -12,22 +12,21 @@ import {
 // "habibi" mhmdarefin
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
-// import AsyncStorage from '@react-native-async-storage/async-storage';
-// import { MMKV } from 'react-native-mmkv';
+
 import Snackbar from 'react-native-snackbar';
-// import { TabNavigator, TabBarBottom } from 'react-navigation';
+
 import SignUP from './SignUP';
 import Login from './Login';
 
-// import { createMaterialTopTabNavigator } from 'react-navigation-tabs';
+
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 
 export interface Props {}
 
 const Tab = createMaterialTopTabNavigator();
-// const WelComePage : React.FC<Props> = ({props,navigation,route}) => {
+
 const LoginSignUP: React.FC<Props> = ({ props, navigation, route }) => {
-  // const { route } = route;
+
   return (
     <Tab.Navigator
       swipeEnabled={true}
