@@ -140,6 +140,7 @@ const MoneyHeaderComponent: React.FC<Props> = props => {
     console.log('props.name: ', props.name);
     console.log('props.price: ', props.price);
 
+    // render F ... render Final...
     return (
       <View
         style={{
